@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { CgProfile } from "react-icons/cg";
@@ -7,10 +8,17 @@ import LogoSvg from "@/assets/logo.png";
 import { Search } from "../index";
 
 export function Navbar() {
+  const [searchInFocus, setSearchInFocus] = useState(false);
+
   return (
-    <header className="flex justify-between px-20 items-center gap-12">
-      <div className="flex w-full items-center gap-2">
-        <Link href="/" className="relative w-20 h-20">
+    <header className="flex justify-between px-4 md:px-20 items-center gap-12 duration-200 ease-in-out">
+      <div className={`flex w-full items-center gap-2 md:py-0  ${searchInFocus ? "py-3" : "w-full"}`}>
+        <Link
+          href="/"
+          className={`relative w-20 h-20 ${
+            searchInFocus ? "hidden" : ""
+          } md:block`}
+        >
           <Image
             fill
             className="object-contain"
@@ -18,9 +26,9 @@ export function Navbar() {
             alt="Genesis EComm"
           />
         </Link>
-        <Search />
+        <Search setSearchInFocus={setSearchInFocus} />
       </div>
-      <nav className="flex gap-4 text-gray-600">
+      <nav className={`md:flex gap-4 text-gray-600 duration-200 ease-in-out ${searchInFocus ? "hidden" : "flex" }`}>
         <Link
           href="/carrinho"
           className="hover:opacity-60 duration-200 ease-in-out"

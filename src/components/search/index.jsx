@@ -4,7 +4,7 @@ import { IoMdSearch } from "react-icons/io";
 import { useRouter, usePathname } from "next/navigation";
 import { SearchContext } from "@/contexts/searchContext";
 
-export function Search({}) {
+export function Search({ setSearchInFocus }) {
   const { search, setSearch } = useContext(SearchContext);
   const router = useRouter();
   const pathname = usePathname();
@@ -23,6 +23,8 @@ export function Search({}) {
       border-gray-200 border-2"
     >
       <input
+        onFocus={() => setSearchInFocus(true)}
+        onBlur={() => setSearchInFocus(false)}
         onChange={handleSearch}
         value={search}
         className="w-full h-full rounded-l-xl px-5 text-lg"
