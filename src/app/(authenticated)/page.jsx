@@ -41,7 +41,7 @@ export default function Home() {
   }, [search]);
 
   function changePage(action) {
-    if (action === "next" && page < products.pages) {
+    if (action === "next" && page < data.pages) {
       setPage(page + 1);
     }
 
