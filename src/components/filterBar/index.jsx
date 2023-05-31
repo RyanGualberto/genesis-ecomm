@@ -2,14 +2,15 @@
 import React, { useState } from "react";
 import { MdFilterAlt, MdClose } from "react-icons/md";
 
-export function FilterBar({
-  setFilter,
-  filter,
-  categories,
-  isLoadingCategories,
-  isErrorCategories,
-}) {
+export function FilterBar({ setFilter, filter }) {
   const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const categories = [
+    "Smartphones",
+    "Computadores",
+    "Eletrodomesticos",
+    "Monitores",
+    "outros",
+  ];
 
   const isSelected = (category) => filter === category;
 
@@ -20,18 +21,10 @@ export function FilterBar({
     return setFilter(category);
   }
 
-  if (isLoadingCategories) {
-    return <p>Carregando...</p>;
-  }
-
-  if (isErrorCategories) {
-    return <p>Erro ao carregar categorias</p>;
-  }
-
   return (
     <ul className="flex flex-wrap gap-3 w-full relative justify-end pr-12 py-2">
       {isFilterOpen &&
-        categories.map(({ category }) => (
+        categories.map((category) => (
           <li
             key={category}
             onClick={() => handleCategoryClick(category)}

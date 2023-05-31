@@ -24,6 +24,13 @@ export function Modal({
       };
   const [product, setProduct] = useState(initialProductState);
   const [image, setImage] = useState(undefined);
+  const categories = [
+    "Smartphones",
+    "Computadores",
+    "Eletrodomesticos",
+    "Monitores",
+    "outros",
+  ];
 
   function closeModal() {
     setIsModalOpen(false);
@@ -47,6 +54,9 @@ export function Modal({
     const { name, description, price, quantityAvailable, category } = product;
     const method = isEdit ? "put" : "post";
     const url = `/products?name=${oldName}`;
+
+    if (category === "") return errorNotify("Categoria");
+
     try {
       await apiClient[method](url, {
         ...(isEdit ? { newName: name } : { name }),
@@ -127,16 +137,20 @@ export function Modal({
             placeholder="Quantidade Disponível"
             className="border border-gray-400 rounded-lg p-2"
           />
-          <input
-            onChange={handleSetProduct}
+          <select
             name="category"
-            placeholder="Categoria"
-            value={product.category}
+            id="category"
             required
-            onInvalid={() => errorNotify("Categoria")}
             className="border border-gray-400 rounded-lg p-2"
-            type="text"
-          />
+            onChange={handleSetProduct}
+          >
+            <option value="">Selecione uma categoria</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
           <input
             onChange={(e) => setImage(e.target.files[0])}
             type="file"
