@@ -1,27 +1,17 @@
 "use client";
-import { apiClient } from "@/services/api";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MdFilterAlt, MdClose } from "react-icons/md";
-import { useQuery } from "react-query";
 
-export function FilterBar({ setFilter, filter }) {
+export function FilterBar({
+  setFilter,
+  filter,
+  categories,
+  isLoadingCategories,
+  isErrorCategories,
+}) {
   const [isFilterOpen, setIsFilterOpen] = useState(true);
-  const {
-    data: categories,
-    isLoading,
-    isError,
-    refetch,
-  } = useQuery("categories", getCategories);
+
   const isSelected = (category) => filter === category;
-
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
-
-  async function getCategories() {
-    const { data } = await apiClient.get(`/categories`);
-    return data;
-  }
 
   function handleCategoryClick(category) {
     if (isSelected(category)) {
@@ -30,11 +20,11 @@ export function FilterBar({ setFilter, filter }) {
     return setFilter(category);
   }
 
-  if (isLoading) {
+  if (isLoadingCategories) {
     return <p>Carregando...</p>;
   }
 
-  if (isError) {
+  if (isErrorCategories) {
     return <p>Erro ao carregar categorias</p>;
   }
 
@@ -45,7 +35,7 @@ export function FilterBar({ setFilter, filter }) {
           <li
             key={category}
             onClick={() => handleCategoryClick(category)}
-            className={`animate-slide-right-to-left px-4 h-11 rounded-full bg-gray-200 text-gray-800 font-bold flex justify-center items-center gap-2 cursor-pointer ${
+            className={`animate-slide-right-to-left px-4 h-11 rounded-full bg-gray-200 text-gray-800 font-bold flex justify-center items-center gap-2 cursor-pointer capitalize ${
               isSelected(category) ? "bg-gray-400" : ""
             }`}
           >

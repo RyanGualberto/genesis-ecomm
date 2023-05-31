@@ -7,6 +7,12 @@ import { apiClient } from "@/services/api";
 
 export default function Home() {
   const { data, error, isLoading, refetch } = useQuery("products", getProducts);
+  const {
+    data: categories,
+    isLoading: isLoadingCategories,
+    isError: isErrorCategories,
+    refetch: refetchCategories,
+  } = useQuery("categories", getCategories);
   const [page, setPage] = React.useState(1);
   const [filter, setFilter] = React.useState(null);
   const { search } = useContext(SearchContext);
@@ -21,19 +27,28 @@ export default function Home() {
     return data;
   }
 
+  async function getCategories() {
+    const { data } = await apiClient.get("/categories");
+
+    return data;
+  }
+
   React.useEffect(() => {
     refetch();
+    refetchCategories();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   React.useEffect(() => {
     refetch();
+    refetchCategories();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {
       refetch();
+      refetchCategories();
     }, 500);
 
     return () => clearTimeout(timeout);
@@ -74,7 +89,14 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center px-4 md:px-24 gap-16">
-      <FilterBar filter={filter} setFilter={setFilter} />
+      <FilterBar
+        filter={filter}
+        setFilter={setFilter}
+        categories={categories}
+        isLoadingCategories={isLoadingCategories}
+        isErrorCategories={isErrorCategories}
+        refetchCategories={refetchCategories}
+      />
       {data.products.length > 0 ? (
         <>
           <section className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-20 items-center">

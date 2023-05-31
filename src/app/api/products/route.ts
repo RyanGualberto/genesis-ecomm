@@ -63,16 +63,18 @@ export async function POST(request: Request) {
 
   try {
     const { id } = jwt.verify(token, "teste") as { id: string };
+    const cleanCategory = category
+      .replaceAll("%20", " ")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
     const product = await prisma.product.create({
       data: {
         name,
         description,
         price,
         quantityAvailable,
-        category: category
-          .replaceAll("%20", " ")
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, ""),
+        category: cleanCategory,
         image:
           image ||
           "https://firebasestorage.googleapis.com/v0/b/genesis-ecomm.appspot.com/o/images%2Fdefault_image.png?alt=media&token=a9c86f0b-0599-497e-9039-98ea97e59885&_gl=1*fogkw4*_ga*NjkxMjI1MzQ3LjE2ODU0MDIyODc.*_ga_CW55HF8NVT*MTY4NTQwNzQ1My4yLjEuMTY4NTQwNzUyNi4wLjAuMA..",
