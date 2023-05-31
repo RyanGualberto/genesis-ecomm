@@ -74,13 +74,14 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center px-4 md:px-24 gap-16">
-      <FilterBar filter={filter} setFilter={setFilter}/>
+      <FilterBar filter={filter} setFilter={setFilter} />
       {data.products.length > 0 ? (
         <>
           <section className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-20 items-center">
             {data.products.map((product) => (
               <ProductCard
                 id={product.id}
+                productId={product.id}
                 key={product.id}
                 description={product.description}
                 image={product.image}

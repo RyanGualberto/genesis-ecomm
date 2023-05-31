@@ -18,10 +18,14 @@ export function CartItemRow({
 }) {
   const [quantityState, setQuantityState] = React.useState(quantity);
 
+  React.useEffect(() => {
+    setQuantityState(quantity);
+  }, [quantity, refetch]);
+
   async function handleQuantityChange(e, action) {
     e.preventDefault();
     if (action === "add") {
-      if (quantityState < quantityAvailable) {
+      if (quantityAvailable > 0) {
         await updateQuantity(quantityState + 1);
         return setQuantityState(quantityState + 1);
       }

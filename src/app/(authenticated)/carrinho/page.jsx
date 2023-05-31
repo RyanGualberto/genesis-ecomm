@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { CartItemRow } from "@/components";
 import { useQuery } from "react-query";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -10,6 +10,10 @@ import Loading from "@/app/loading";
 
 export default function Cart() {
   const { data: cart, isLoading, error, refetch } = useQuery("cart", getCart);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   async function getCart() {
     const { data } = await apiClient.get("/cart");

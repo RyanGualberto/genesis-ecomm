@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
   if (!token) {
     return NextResponse.json({
-      message: "Token not found"
+      message: "Token not found",
     });
   }
 
@@ -48,16 +48,7 @@ export async function POST(request: Request) {
       },
     });
 
-    await prisma.product.update({
-      where: {
-        id: productId,
-      },
-      data: {
-        quantityAvailable: {
-          decrement: quantity,
-        },
-      },
-    });
+    await decrementProductQuantity(productId, quantity);
   }
 
   if (!cartItem) {
@@ -69,19 +60,23 @@ export async function POST(request: Request) {
       },
     });
 
-    await prisma.product.update({
-      where: {
-        id: productId,
-      },
-      data: {
-        quantityAvailable: {
-          decrement: quantity,
-        },
-      },
-    });
+    await decrementProductQuantity(productId, quantity);
   }
 
   return NextResponse.json({
     message: "Product added to cart",
+  });
+}
+
+async function decrementProductQuantity(productID: string, quantity: number) {
+  return await prisma.product.update({
+    where: {
+      id: productID,
+    },
+    data: {
+      quantityAvailable: {
+        decrement: quantity,
+      },
+    },
   });
 }

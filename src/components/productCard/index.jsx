@@ -49,8 +49,9 @@ export function ProductCard({
   }
 
   async function addToCart() {
+    console.log("productId", productId);
     const { data } = await apiClient.post(`/cart/add`, {
-      productId: productId,
+      productId,
       quantity: Number(quantity),
     });
 
