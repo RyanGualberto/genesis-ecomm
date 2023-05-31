@@ -44,7 +44,7 @@ export async function GET(request: Request) {
 
   return NextResponse.json({
     products,
-    pages: Math.ceil(count / 21),
+    pages: Math.ceil(count / 21) < 1 ? 1 : Math.ceil(count / 21),
     category: cleanCategory || "all",
     request: request.url,
   });
