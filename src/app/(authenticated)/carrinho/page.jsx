@@ -30,7 +30,7 @@ export default function Cart() {
   }
 
   return (
-    <main className="flex flex-col items-center px-24 gap-8">
+    <main className="flex flex-col items-center px-4 md:px-24 gap-8 max-w-screen overflow-hidden">
       <h1 className="text-4xl font-bold w-full text-left">Meu carrinho</h1>
       {cart.CartItem.length === 0 ? (
         <section className="flex items-center justify-center text-gray-600 flex-col gap-2">
@@ -42,34 +42,36 @@ export default function Cart() {
         </section>
       ) : (
         <>
-          <table className="w-full border-spacing-24 border">
-            <thead className="border">
-              <tr>
-                <th className="w-full text-start p-2">Produto</th>
-                <th className="p-3">Quantidade</th>
-                <th className="p-3">
-                  <p className="whitespace-nowrap">Preço unitário</p>
-                  <p className="whitespace-nowrap">Subtotal</p>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {cart.CartItem.map((cartItem) => (
-                <CartItemRow
-                  key={cartItem.id}
-                  category={cartItem.Product.category}
-                  description={cartItem.Product.description}
-                  id={cartItem.id}
-                  image={cartItem.Product.image}
-                  name={cartItem.Product.name}
-                  price={cartItem.Product.price}
-                  quantity={cartItem.quantity}
-                  quantityAvailable={cartItem.Product.quantityAvailable}
-                  refetch={refetch}
-                />
-              ))}
-            </tbody>
-          </table>
+          <div className="max-w-screen w-screen md:w-full overflow-scroll">
+            <table className="border min-w-[500px]">
+              <thead className="border">
+                <tr>
+                  <th className="w-full text-start p-2">Produto</th>
+                  <th className="p-3">Quantidade</th>
+                  <th className="p-3">
+                    <p className="whitespace-nowrap">Preço unitário</p>
+                    <p className="whitespace-nowrap">Subtotal</p>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {cart.CartItem.map((cartItem) => (
+                  <CartItemRow
+                    key={cartItem.id}
+                    category={cartItem.Product.category}
+                    description={cartItem.Product.description}
+                    id={cartItem.id}
+                    image={cartItem.Product.image}
+                    name={cartItem.Product.name}
+                    price={cartItem.Product.price}
+                    quantity={cartItem.quantity}
+                    quantityAvailable={cartItem.Product.quantityAvailable}
+                    refetch={refetch}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </div>
           <div className="flex flex-col items-end w-full">
             <p className="text-2xl font-bold">
               Total: {priceFormatter(cart.total)}

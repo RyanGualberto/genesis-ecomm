@@ -80,7 +80,7 @@ export function Modal({
 
   return (
     <aside className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white rounded-lg p-8 flex flex-col gap-2">
+      <div className="bg-white rounded-lg p-8 flex flex-col gap-2 max-w-screen md:max-w-fit">
         <h1 className="text-4xl font-bold w-full text-left">
           Adicionar Produto
         </h1>
